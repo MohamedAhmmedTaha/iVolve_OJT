@@ -1,0 +1,27 @@
+version: "3"
+services:
+
+  app_service:
+    build: ./kubernets-app/
+    container_name: myapp
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: mysql_db
+      DB_USER: root
+      DB_PASSWORD: root
+    depends_on:
+      - db_service
+
+
+  db_service:
+    image: mysql:8.0
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: ivolve
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
