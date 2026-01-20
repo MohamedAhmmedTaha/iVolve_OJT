@@ -120,7 +120,7 @@ docker push <dockerhub-username>/myapp:<tag>
 
 ---
 
->## Screenshot (Lab6 Execution Result)
+>## Screenshot (Lab9 Execution Result)
 
 ![Lab 5 Result](lab9-1.png)
 
