@@ -4,6 +4,6 @@ metadata:
   name: mysql-configmap
   namespace: ivolve
 data:
-  DB_HOST: mysql-statefulset.ivolve.svc.cluster.local
+  DB_HOST: mysql.ivolve.svc.cluster.local
   DB_USER: ivolve_user
  
