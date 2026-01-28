@@ -4,7 +4,7 @@ metadata:
   name: mysql
   namespace: ivolve
 spec:
-  serviceName: mysql
+  serviceName: mysql-headless
   replicas: 1
   selector:
     matchLabels:
@@ -13,32 +13,26 @@ spec:
     metadata:
       labels:
         app: mysql
-
     spec:
-      tolerations:
-      - key: "node"
-        operator: "Equal"
-        value: "worker"
-        effect: "NoSchedule"
-
       containers:
       - name: mysql
-        image: mysql:5.7
-        envFrom:
-        - secretRef:
-            name: mysql-secret
+        image: mysql:8
         ports:
         - containerPort: 3306
-
+        envFrom:
+        - configMapRef:
+            name: mysql-config
+        - secretRef:
+            name: mysql-secret
         volumeMounts:
         - name: mysql-data
           mountPath: /var/lib/mysql
-          
   volumeClaimTemplates:
   - metadata:
       name: mysql-data
     spec:
-      accessModes: [ "ReadWriteOnce" ]
+      accessModes:
+        - ReadWriteOnce
       resources:
         requests:
           storage: 1Gi

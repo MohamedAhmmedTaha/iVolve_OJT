@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodejs-app
+  namespace: ivolve
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nodejs-app
+  template:
+    metadata:
+      labels:
+        app: nodejs-app
+    spec:
+      initContainers:
+      - name: mysql-init
+        image: mysql:5.7
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: MYSQL_ROOT_PASSWORD
+        command:
+        - /bin/bash
+        - -c
+        - |
+          mysql -h mysql-headless.ivolve.svc.cluster.local -u root -p$MYSQL_ROOT_PASSWORD -e "CREATE DATABASE IF NOT EXISTS ivolve;"
+          mysql -h mysql-headless.ivolve.svc.cluster.local -u root -p$MYSQL_ROOT_PASSWORD -e "CREATE USER IF NOT EXISTS 'taha'@'%' IDENTIFIED BY 'taha123';"
+          mysql -h mysql-headless.ivolve.svc.cluster.local -u root -p$MYSQL_ROOT_PASSWORD -e "GRANT ALL PRIVILEGES ON ivolve.* TO 'taha'@'%';"
+          mysql -h mysql-headless.ivolve.svc.cluster.local -u root -p$MYSQL_ROOT_PASSWORD -e "FLUSH PRIVILEGES;"
+
+      containers:
+      - name: nodejs-app
+        image: mohamedtaha934/lab9_appe:v1.0
+        ports:
+        - containerPort: 3000
+        env:
+        - name: DB_HOST
+          value: mysql-headless.ivolve.svc.cluster.local
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: DB_USER
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mysql-secret
+              key: DB_PASSWORD
+        - name: DB_NAME
+          value: ivolve
+        volumeMounts:
+        - name: app-storage
+          mountPath: /app/data
+
+      volumes:
+      - name: app-storage
+        persistentVolumeClaim:
+          claimName: app-logs-pvc
