@@ -128,15 +128,14 @@ This project contains multiple Kubernetes labs (lab12 - lab16) demonstrating var
 ![Lab 16 Result](lab16-4.png)
 ![Lab 16 Result](lab16-5.png)
 
-
-
-
-
 ---
-
 ## Notes
 
 * Ensure all secrets and ConfigMaps are correctly applied before deploying applications.
 * Init container in Node.js deployment creates DB and user before the app starts.
 * PVCs must be bound to volumes before Node.js pods start.
 * The bonus part is the Node.js Service exposing port 3000 for testing the app.
+---
+## Author
+
+Mohamed Ahmed Mohamed Taha

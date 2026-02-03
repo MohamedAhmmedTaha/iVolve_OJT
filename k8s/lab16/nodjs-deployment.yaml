@@ -34,6 +34,13 @@ spec:
       containers:
       - name: nodejs-app
         image: mohamedtaha934/lab9_appe:v1.0
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "1"
+          limits:
+            memory: "2Gi"
+            cpu: "2"
         ports:
         - containerPort: 3000
         env:
