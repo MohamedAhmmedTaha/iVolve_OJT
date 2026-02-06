@@ -61,7 +61,7 @@ pipeline {
         stage('DeployOnK8s') {
             steps {
                 dir('Jenkins/lab23') {
-                    deployOnK8s('k8s/deployment.yaml')
+                    deployOnK8s('./deployment.yaml')
                 }
             }
         }
