@@ -41,7 +41,7 @@ pipeline {
                 }
             }
         }
-/*
+
         stage('PushImage') {
             steps {
                 dir('Jenkins/lab23') {
@@ -57,7 +57,7 @@ pipeline {
                 }
             }
         }
-*/
+
         stage('DeployOnK8s') {
             steps {
                 dir('Jenkins/lab23') {
