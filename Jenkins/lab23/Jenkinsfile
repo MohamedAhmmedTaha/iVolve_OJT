@@ -12,43 +12,57 @@ pipeline {
 
         stage('RunUnitTest') {
             steps {
-                runUnitTest()
+                dir('Jenkins/lab23') {
+                    runUnitTest()
+                }
             }
         }
 
         stage('BuildApp') {
             steps {
-                buildApp()
+                dir('Jenkins/lab23') {
+                    buildApp()
+                }
             }
         }
 
         stage('BuildImage') {
             steps {
-                buildImage(IMAGE_NAME, IMAGE_TAG)
+                dir('Jenkins/lab23') {
+                    buildImage(IMAGE_NAME, IMAGE_TAG)
+                }
             }
         }
 
         stage('ScanImage') {
             steps {
-                scanImage(IMAGE_NAME, IMAGE_TAG)
+                dir('Jenkins/lab23') {
+                    scanImage(IMAGE_NAME, IMAGE_TAG)
+                }
             }
         }
 
         stage('PushImage') {
             steps {
-                pushImage(IMAGE_NAME, IMAGE_TAG)
+                dir('Jenkins/lab23') {
+                    pushImage(IMAGE_NAME, IMAGE_TAG)
+                }
             }
         }
 
         stage('RemoveImageLocally') {
             steps {
-                removeImage(IMAGE_NAME, IMAGE_TAG)
+                dir('Jenkins/lab23') {
+                    removeImage(IMAGE_NAME, IMAGE_TAG)
+                }
             }
         }
 
         stage('DeployOnK8s') {
             steps {
-                deployOnK8s('Jenkins/lab23/deployment.yaml')
+                dir('Jenkins/lab23') {
+                    deployOnK8s('k8s/deployment.yaml')
+                }
             }
         }
     }
