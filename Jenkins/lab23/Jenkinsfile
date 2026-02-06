@@ -1,0 +1,55 @@
+@Library('shared-lib') _
+
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = "mohamedtaha934/jenkins_app"
+        IMAGE_TAG  = "${BUILD_NUMBER}"
+    }
+
+    stages {
+
+        stage('RunUnitTest') {
+            steps {
+                runUnitTest()
+            }
+        }
+
+        stage('BuildApp') {
+            steps {
+                buildApp()
+            }
+        }
+
+        stage('BuildImage') {
+            steps {
+                buildImage(IMAGE_NAME, IMAGE_TAG)
+            }
+        }
+
+        stage('ScanImage') {
+            steps {
+                scanImage(IMAGE_NAME, IMAGE_TAG)
+            }
+        }
+
+        stage('PushImage') {
+            steps {
+                pushImage(IMAGE_NAME, IMAGE_TAG)
+            }
+        }
+
+        stage('RemoveImageLocally') {
+            steps {
+                removeImage(IMAGE_NAME, IMAGE_TAG)
+            }
+        }
+
+        stage('DeployOnK8s') {
+            steps {
+                deployOnK8s('k8s/deployment.yaml')
+            }
+        }
+    }
+}
