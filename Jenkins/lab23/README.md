@@ -83,7 +83,7 @@ kubectl apply -f jenkins-deployment-rolebinding.yaml
    * ID: `Jenkins-Token` → value: token from service account
    * Minikube API token can be obtained via:
 ```bash
-kubectl  get secret jenkins-sa-token -n ivolve -o jsonpath="{.data.token}" | base64 -
+kubectl  get secret jenkins-sa-token -n ivolve -o jsonpath="{.data.token}" | base64 -d
 ```
 
 3. **Shared library**:
