@@ -1,0 +1,21 @@
+---
+- name: Setup Nginx Web Server
+  hosts: ec2
+  become: yes
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+        update_cache: yes
+
+    - name: Custom index page
+      copy:
+        content: "<h1>             Hello from Ansible Lab27 - Mohamed Taha </h1>"
+        dest: /var/www/html/index.nginx-debian.html
+
+    - name: Start Nginx
+      systemd:
+        name: nginx
+        state: started
+        enabled: yes

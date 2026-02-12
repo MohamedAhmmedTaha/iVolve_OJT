@@ -1,0 +1,6 @@
+- hosts: ec2
+  become: yes
+  roles:
+    - docker
+    - kubectl
+    - jenkins
